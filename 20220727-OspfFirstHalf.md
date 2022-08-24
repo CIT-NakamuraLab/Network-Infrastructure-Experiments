@@ -179,9 +179,17 @@
   3. 有効な物理インターフェースアドレスに設定した最も大きいIPアドレス
    <br>またルータIDを決定する際には､基本的に2番のループバックアドレスに設定した最も大きいIPアドレスが望ましい
 * コストを変更する手法
-    * 手動で設定
-    * 帯域を変更
-    * 分子を変更
+  * 手動で設定
+    * (config-if)# ip ospf cost hoge
+  * 帯域を変更
+    * 帯域幅はKbps単位で指定
+    * BW = 100000 kbit/sec = 100Mbps
+    * (config-if)# bandwidth　hoge
+  * 分子を変更
+  * (config-router)# auto-cost reference-bandwidth hoge
+* コストを変更する際の注意点
+  * すべてのルータに設定変更しなければならない 
+
 * DR、BDRの選出順位
   1. プライオリティ値
   2. ルータID  
