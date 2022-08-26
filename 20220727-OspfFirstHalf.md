@@ -189,7 +189,7 @@
   * 分子を変更
   * (config-router)# auto-cost reference-bandwidth hoge
 * コストを変更する際の注意点
-  * すべてのルータに設定変更しなければならない 
+  * 全てのルータでコストを統一する必要がある 
 * DR、BDRの選出順位
   1. プライオリティ値
   2. ルータID  
