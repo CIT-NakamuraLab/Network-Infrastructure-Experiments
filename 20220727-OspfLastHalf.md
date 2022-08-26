@@ -42,11 +42,11 @@
     </dl>
 ---
 * 実験2<br>
-        <p>show ip rouute コマンドを実行すると、どのように表示されるのか。</p>
+        <p>show ip route コマンドを実行すると、どのように表示されるのか。</p>
   * 結果<br>
     <dl>
     <dt> RT1</dt>
-    <dt> show ip rouute </dt>
+    <dt> show ip route </dt>
     <dd>
     Gateway of last resort is not set<br>
           10.0.0.0/32 is subnetted, 1 subnets<br>
@@ -63,7 +63,7 @@
 
     <dl>
     <dt> RT2</dt>
-    <dt> show ip rouute </dt>
+    <dt> show ip route </dt>
     <dd>
     Gateway of last resort is not set
         10.0.0.0/32 is subnetted, 1 subnets<br>
@@ -80,7 +80,7 @@
 
     <dl>
     <dt> RT3</dt>
-    <dt> show ip rouute </dt>
+    <dt> show ip route </dt>
     <dd>
     Gateway of last resort is not set<br>
         10.0.0.0/32 is subnetted, 1 subnets<br>
@@ -96,7 +96,7 @@
     </dd><br>
 
     <dd>
-    RT1の「O IA」を見るとRT3の「172.16.30.0/24、192.168.150.0/24」情報を伝えられている事から、異なるエリアでもルート情報を得られていることが分かる。
+    RT1の「O IA」を見るとRT3の172.16.30.0/24、192.168.150.0/24の情報を伝えられている事から、異なるエリアでもルート情報を得られていることが分かる。
     </dd>
     </dl>
 ---
