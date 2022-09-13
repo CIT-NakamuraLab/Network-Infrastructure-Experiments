@@ -30,7 +30,7 @@ PC：192.168.100.101
 NTPサーバ：192.168.100.102  
   
 ログレベルの変更コマンド  
-`(config)#logging console <レベル>`
+`(config)#logging console <レベル>`  
 ![logging-console](images/20220830DeviceManagement/logging-console.png)  
 ログレベルを5に設定した際にLANケーブルの抜き差しを行ったが、ログは出力されなかった。  
 ログレベルを6に設定すると、リンクアップのログが出力されていることがわかる。  
