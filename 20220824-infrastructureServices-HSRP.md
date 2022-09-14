@@ -8,9 +8,10 @@
 ## 1 実験環境と構築
 
 !["実験画像"](./images/20220824-infrastructureServicesImg/20220824-infrastructureServices_1.jpg)
-
 #### 図1:実際に構築の際に用いた図
+
 Ciscoパケットトレーサーで再現し以下に示す。
+
 !["Ciscoのパケットトレーサーで再現したHSRPの設計画像"](./images/20220824-infrastructureServicesImg/20220824-infrastructureServices_2.png)
 #### 図2,Ciscoのパケットトレーサーで再現したHSRPの設計画像
 
@@ -27,7 +28,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     show standby briefコマンドを入力することによって､グループ番号が同じ値であるか｡<br>プライオリティの高い値がアクティブになっているか｡<br>仮想IPアドレスが正しく入力されているかなどを確認する｡
   * 結果<br>
     RT1
-    ```html
+    ```
     RT1#show standby brief 
                      P indicates configured to preempt.
                      |
@@ -35,7 +36,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     Gig0/0/1    1    110 P Active   local           192.168.1.2     192.168.1.254 
     ```
     <br>RT2
-    ```html
+    ```
     RT2#show standby brief 
                      P indicates configured to preempt.
                      |
@@ -52,14 +53,14 @@ Ciscoパケットトレーサーで再現し以下に示す。
     PINGを打ち続ける途中で､プライオリティ値が高いRT1に対して繋がっているLANケーブルを引き抜く｡<br>
     引き抜いた後に､PINGによる通信が回復することやRT2がアクティブルータになっているかを確認する｡
   * 結果<br>
-    ```html
+    ```
     RT1#show standby brief 
                      P indicates configured to preempt.
                      |
     Interface   Grp  Pri P State    Active          Standby         Virtual IP
     Gig0/0/1    1    110 P Init     unknown         unknown         192.168.1.254
     ```
-    ```html
+    ```
     RT2#show standby brief 
                      P indicates configured to preempt.
                      |
@@ -71,7 +72,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
 
     コマンドプロンプト  
     ping 192.168.1.1 -t
-    ```html
+    ```
     (省略)
     192.168.1.1 からの応答: バイト数=32 時間 < 1ms TTL=255
     192.168.1.1 からの応答: バイト数=32 時間 < 1ms TTL=255
@@ -82,7 +83,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     (省略)
     ```
     ping 192.168.1.254 -t
-    ```html
+    ```
     (省略)
     192.168.1.254 からの応答: バイト数=32 時間 < 1ms TTL=255
     192.168.1.254 からの応答: バイト数=32 時間 < 1ms TTL=255
@@ -99,7 +100,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     実験2から引き抜いたLANケーブルを再び接続し直し､プライオリティ値が高いRT1が接続した瞬間に､show standby briefコマンドを入力することで､HSRPの状態がListenに切り替わっているか確認する｡<br>
     また､アクティブルータがRT1になりスタンドバイルータがRT2になっているか確認する｡
   * 結果<br>
-    ```html
+    ```
     RT1#show standby brief 
                      P indicates configured to preempt.
                      |
@@ -107,7 +108,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     Gig0/0/1    1    110 P Listen   unknown         unknown         192.168.1.254  
     ```
 
-    ```html
+    ```
     RT2#show standby brief 
                      P indicates configured to preempt.
                      |
@@ -119,7 +120,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
 
     コマンドプロンプト<br>
     ping 192.168.1.1 -t
-    ```html
+    ```
     (省略)
     192.168.1.10 からの応答: 宛先ホストに到達できません｡
     192.168.1.10 からの応答: 宛先ホストに到達できません｡
@@ -128,7 +129,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     (省略)
     ```
     ping 192.168.1.254 -t
-    ```html
+    ```
     (省略)
     192.168.1.254 からの応答: バイト数=32 時間 < 1ms TTL=255
     要求がタイムアウトしました｡
@@ -137,7 +138,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     ```
     実験2では､到達しなかった192.168.1.1がLANケーブルを繋ぎ直すことによって､PINGが通っていることがわかる｡また､アクティブルータが変わることによって､接続の切り替えが生じ一定時間の間に通信が途切れていることがわかる｡<br><br>
 
-    ```html
+    ```
     RT1#show standby brief 
                      P indicates configured to preempt.
                      |
@@ -145,7 +146,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     Gig0/0/1    1    110 P Active   local           192.168.1.2     192.168.1.254 
     ```
 
-    ```html
+    ```
     RT2#show standby brief 
                      P indicates configured to preempt.
                      |
@@ -158,7 +159,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
 * 実験4<br>
      プリエンプトの設定を一度削除して､アクティブルータを断線させる｡その際に､show standbyコマンドを入力し､プリエンプトがenableでないことを確認する｡また､実験3より､プリエンプトの設定がない状態なら､プライオリティの低いルータがアクティブルータであり続けるのか否かを確認する｡
   * 結果
-    ```html
+    ```
     RT1#show standby 
     GigabitEthernet0/0/1 - Group 1
       State is Active
@@ -175,7 +176,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
       Group name is hsrp-Gig0/0/1-1 (default)
     ``` 
 
-    ```html
+    ```
     RT2#show standby 
     GigabitEthernet0/0/1 - Group 1
       State is Standby
@@ -194,7 +195,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     ```
     Preemption disabledであることからプリエンプトが有効になっていないことがわかる｡
 
-    ```html
+    ```
     RT1#show standby brief 
                      P indicates configured to preempt.
                      |
@@ -202,7 +203,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     Gig0/0/1    1    110   Active   local           192.168.1.2     192.168.1.254
     ```
 
-    ```html
+    ```
     RT2#show standby brief 
                      P indicates configured to preempt.
                      |
@@ -235,4 +236,4 @@ Ciscoパケットトレーサーで再現し以下に示す。
 
 ---
 ## 4 引用
-[Cisco､｢ホットスタンバイルータプロトコル(HSRP)の機能について｣､2022/08/05､2022/09/05アクセス](https://www.cisco.com/c/ja_jp/support/docs/ip/hot-standby-router-protocol-hsrp/9234-hsrpguidetoc.html)
+[Cisco､｢ホットスタンバイルータプロトコル(HSRP)の機能について｣､2022/08/05､2022/09/05アクセス](https://www.cisco.com/c/ja_jp/support/docs/ip/hot-standby-router-protocol-hsrp/9234-hsrpguidetoc.)
