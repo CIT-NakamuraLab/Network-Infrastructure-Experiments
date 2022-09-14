@@ -43,7 +43,7 @@
 * ポリシング
   * 最低限保証している伝送速度を超過するとトラフィックを破棄することや優先度を変更することで回線の占有を防ぐ
 * シェーピング
-  * 伝送速度の設定値を超過するとルータやスイッチのバッファに保持し遅れて送信する
+  * 伝送速度の設定値を超過するとルータやスイッチ内のバッファに保持し遅れて送信する
 * PQ
   * 優先度が異なるパケットを4つに分けて領域を並べる
   * 優先度は､｢High｣､｢Medium｣､｢Normal｣､｢Low｣の4つの領域に分ける
@@ -56,7 +56,7 @@
   * 管理者が定義した領域を割り当て､最低帯域幅の指定によって送信するパケットの比率を変化するプロトコル
 * LLQ
   * PQ + CB-WFQの組み合わせ
-  * 最低帯域幅を保証しながら優先的なパケットを送信することが可能
+  * 最低帯域幅を保証しながら優先的なパケットを送信する
 * 輻輳の管理
   * RED
     * 領域がいっぱいになる前に､パケットをランダムに破棄するプロトコル
@@ -68,13 +68,18 @@
   * 複数のルータやスイッチを管理する際に､何らかの原因で故障によったものを､1つ1つ確認して見て回るのは手間がかかる｡
 * SNMPの目的
   * ネットワーク上に接続されている機器の情報をサーバーで収集管理し､見ることができれば1つ1つ確認する必要がなくなる｡
+* SNMPで主に取得できる情報
+  * CPU
+  * メモリ
+  * ディスク
+  * トラフィック量
   
 * SNMP構成
   * SNMPマネージャ
     * 管理側のサーバー
     * SNMPエージェントに対してオブジェクト識別子を指定して情報を受信する
   * SNMPエージェント
-    * 管理される側のルータやスイッチ
+    * 管理される側のルータやスイッチ､PCなど
     * SNMPマネージャに対して指定されたOID
     * 機器の情報を送信する
     * UDPでの通信(Port 161,162)
@@ -86,35 +91,77 @@
     * IETFが発行したRFCで規定されているMIB
   * 拡張MIB
     * ベンダーが独自に規定したMIB
+* SNMPの通信種類
+  * SNMPポーリング
+    * 定期的にサーバー(マネージャ側)から要求を出し情報を受信する
+  * 問題点
+    * 定期的に確認するとログの量が増えて､インシデントが起きた際に問題を見つけるのが遅れる
 
-> 簡易的な構築手順を以下に示す。<br>
->   ① SNMPビューを作成する｡<br>
->   ② SNMPグループを作成する｡<br>
->   ③ SNMPユーザの作成する｡<br>
->   ④ セキュリティレベルやパスワードを設定する<br>
+  * SNMPトラップ
+    * SNMPポーリングの機能 + ルータ(エージェント側)からサーバー(マネージャ)に対して通知を送信する
+    * リンクのアップダウンやHSRPで決めたサーバーに変化があった際に通知を送信する設定も可能
+    * 一度のみの送信であるため再送不可
+  * 問題点
+    * ネットワークの輻輳などでサーバー(マネージャ側)への通信が届かない可能性がある｡ 
 
-## 2-1 SNMP実験内容
+  * SNMPインフォーム
+    * SNMPトラップの機能 + サーバー(マネージャ側)からの応答を受信する
+    * UDPであるためTCPのような再送制御はしない｡一方で､サーバー(マネージャ側)からの応答がない場合に再度SNMPインフォームを送信する｡
+
+* SNMPのバージョン
+  * SNMPv1
+    * コミニティ名を利用して認証
+    * 平文通信で盗聴の危険性
+    * SNMPトラップまでしか対応していないため､SNMPインフォームのように再送することはできない
+  * SNMPv2c
+    * コミニティ名を利用して認証
+    * 平文通信で盗聴の危険性
+    * SNMPインフォームに対応  
+  * SNMPv3
+    * USMを利用した認証(ユーザー名 MD5 SHA)
+    * 通信データの暗号化(DeS,AES 128,256)が可能となり盗聴の危険性が他のバージョンと比較して安全性が高い
+    * SNMPインフォームに対応
+
+## 2-1 SNMP実験
+  >簡易的な構築手順を以下に示す。<br>
+  >① SNMPビューを作成し標準MIBのsystemと拡張MIBのciscoのそれぞれを取得する｡<br>
+  >② SNMPグループを作成する｡<br>
+  >③ SNMPユーザ及びセキュリティレベルやパスワードを設定する<br>
+
+  使用したコマンドを以下に示す｡
+  >①snmp-server view testview system include <br>
+  >①snmp-server view testview cisco include <br>
+  >②snmp-server group testgroup v3 priv read testview <br>
+  >③snmp-server user user01 testgroup v3 auth sha password priv aes 256 password <br>
+
 * 実験1<br>
-    SNMPビューの確認
-    ```
-    show snmp view
-    ```
-  * 結果<br>
-
-* 実験2<br>
     SNMPグループの確認
     ```
     show snmp group
     ```
   * 結果<br>
+    ```
+    groupname: testgroup  security model:v3 priv
+    contextname:<no context specified>  storage-type: nonvolatile
+    readview : testview   writeview: <no writeview specified>
+    notifyview: <no notifyview specified>
+    row status: active
+    ```
 
-* 実験3<br>
+* 実験2<br>
     SNMPユーザの確認
     ```
     show snmp user
     ```
   * 結果<br>
-
+    ```
+    User name: user01
+    Engine ID:8000000903002C542D236D0C
+    storage-type nonvolatile   active
+    Authentication Protocol: SHA 
+    Privacy Protocol: AES256
+    Group-name: testgroup
+    ```
 ---
 ## 3 参考文献･引用
 [WatchGuard Help Center､｢VLAN インターフェイスの 802.1p マーキングについて｣､2022/09/09アクセス](https://www.watchguard.com/help/docs/help-center/ja-JP/Content/en-US/Fireware/networksetup/images/diagram_vlan_layer2_marking.jpg)
