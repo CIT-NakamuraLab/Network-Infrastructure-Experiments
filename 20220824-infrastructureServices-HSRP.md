@@ -234,7 +234,7 @@ Ciscoパケットトレーサーで再現し以下に示す。
     !["Wiresharkのパケット情報"](./images/20220824-infrastructureServicesImg/20220824-infrastructureServices_3.jpg)
     **図3,Wiresharkのパケット情報**
 
-    パケット情報を見ると､Coupパケットが含まれていることがわかる｡Ciscoによると､Coupは｢プライオリティが高いルータがプライオリティが低いルータをプリエンプション処理すると、coupメッセージが送信されます。プライオリティの低いアクティブルータは、プライオリティの高いアクティブルータからcoupメッセージまたはhelloメッセージを受信すると、スピーク状態に変わり、resign メッセージを送信します。｣と記載されている｡
+    パケット情報を見ると､Coupパケットが含まれていることがわかる｡Ciscoによると､Coupは｢プライオリティが高いルータがプライオリティが低いルータをプリエンプション処理すると、coupメッセージが送信されます。プライオリティの低いアクティブルータは、プライオリティの高いアクティブルータからcoupメッセージまたはhelloメッセージを受信すると、スピーク状態に変わり、resign メッセージを送信します。｣と記載されている｡(1)
     <br>
     図3を見ると､アクティブルータとスタンバイルータを選出していることがわかることから､Ciscoルータのバグなのではないかと考える｡
 ---
@@ -256,4 +256,4 @@ Ciscoパケットトレーサーで再現し以下に示す。
 
 ---
 ## 4 参考文献･引用
-[Cisco､｢ホットスタンバイルータプロトコル(HSRP)の機能について｣､2022/08/05､2022/09/05アクセス](https://www.cisco.com/c/ja_jp/support/docs/ip/hot-standby-router-protocol-hsrp/9234-hsrpguidetoc.html)
+1 [Cisco､｢ホットスタンバイルータプロトコル(HSRP)の機能について｣､2022/08/05､2022/09/05アクセス](https://www.cisco.com/c/ja_jp/support/docs/ip/hot-standby-router-protocol-hsrp/9234-hsrpguidetoc.html)
