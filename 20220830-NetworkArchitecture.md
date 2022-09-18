@@ -58,6 +58,6 @@ VPNにはインターネットVPNとIP-VPNの2種類が存在する。
 - SaaS  
 サーバ上で機能するアプリケーションまで含めたすべてをクラウド事業者が管理・提供する形態。iCloud、Microsoft Office 365などが挙げられる。
 - PaaS  
-アプリケーション開発環境などを揃えた形で提供される形態。利用者はPaaS環境上にアプリケーションの開発を速やかに開始することができる。Microsoft Azure、Google App Engineなどが挙げられる。
+アプリケーション開発環境などを揃えた形で提供される形態。利用者はPaaS環境上にアプリケーションの開発を速やかに開始することができる。Microsoft Azure App Service、Google App Engineなどが挙げられる。
 - IaaS  
 物理サーバ、ネットワーク、OSのインフラ部分のリソースだけが提供される形態。独自の仮想サーバや開発環境を使用したい場合に利用する。Amazon EC2、Google Compute Engineなどが挙げられる。

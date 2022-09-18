@@ -22,7 +22,7 @@
 SyslogはCisco製のルータやスイッチが対応しているプロトコルである。ネットワーク機器のログは個々に出力されるが、多数の機器がある場合は確認に手間がかかる。Syslogを用いることで1ヶ所でログを監視することができる。
 
 ### 実験
-![実験環境](images/20220830DeviceManagement/environment.jpg)
+![実験環境](images/20220830DeviceManagement/environment.jpg)  
 サブネットマスク：/24  
 Syslogサーバ：192.168.100.200  
 RT：192.168.100.1  
